@@ -3,11 +3,11 @@ require 'rails_helper'
 describe "Posters API", type: :request do
   it 'sends a list of posters' do
     Poster.create(name: "REGRET",
-              description: "Hard work rarely pays off.",
-              price: 89.00,
-              year: 2019,
-              vintage: true,
-              img_url: "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
+                  description: "Hard work rarely pays off.",
+                  price: 89.00,
+                  year: 2019,
+                  vintage: true,
+                  img_url: "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
     )
     Poster.create(name: "DISAPPOINTMENT",
                   description: "This is what your parents think of you.",
