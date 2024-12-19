@@ -9,6 +9,12 @@ class Api::V1::PostersController < ApplicationController
     render json: PosterSerializer.new(poster)
   end
 
+  def destroy
+    render json: Poster.delete(params[:id])
+  end
+
+  private
+
   def poster_params
     params.require(:poster).permit(:name, :description, :price, :year, :vintage, :img_url)
   end
