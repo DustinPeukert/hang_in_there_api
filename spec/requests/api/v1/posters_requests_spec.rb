@@ -131,4 +131,38 @@ describe "Posters API", type: :request do
     remaining_posters = Poster.all
     expect(remaining_posters.count).to eq(2)
   end
+
+  it "can find a single poster" do
+    poster1 = Poster.first
+
+    get "/api/v1/posters/#{poster1.id}" 
+
+    expect(response).to be_successful
+
+    poster = JSON.parse(response.body, symbolize_names: true)[:data]
+    
+    expect(poster).to have_key(:id)
+
+    expect(poster[:id]).to be_an(String)
+
+    poster = poster[:attributes]
+    
+    expect(poster).to have_key(:name)
+    expect(poster[:name]).to be_a(String)
+
+    expect(poster).to have_key(:description)
+    expect(poster[:description]).to be_a(String)
+
+    expect(poster).to have_key(:price)
+    expect(poster[:price]).to be_a(Float)
+
+    expect(poster).to have_key(:year)
+    expect(poster[:year]).to be_a(Integer)
+
+    expect(poster).to have_key(:vintage)
+    expect(poster[:vintage]).to be_a(TrueClass).or be_a(FalseClass)
+
+    expect(poster).to have_key(:img_url)
+    expect(poster[:img_url]).to be_a(String)
+  end
 end
