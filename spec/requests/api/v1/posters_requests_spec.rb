@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "Posters API", type: :request do
-  it 'sends a list of posters' do
+  before(:each) do
     Poster.create(name: "REGRET",
                   description: "Hard work rarely pays off.",
                   price: 89.00,
@@ -23,7 +23,9 @@ describe "Posters API", type: :request do
                   vintage: false,
                   img_url: "https://images.unsplash.com/photo-1551993005-75c4131b6bd8"
     )
+  end
 
+  it 'sends a list of posters' do
     get '/api/v1/posters'
 
     expect(response).to be_successful
