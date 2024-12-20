@@ -165,4 +165,31 @@ describe "Posters API", type: :request do
     expect(poster).to have_key(:img_url)
     expect(poster[:img_url]).to be_a(String)
   end
+
+  it "can create a poster" do
+    poster_params = {
+      name: "REGRET",
+      description: "Hard work rarely pays off.",
+      price: 89.0,
+      year: 2018,
+      vintage: true,
+      img_url: "https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d"
+    }
+
+    headers = {"CONTENT_TYPE" => "application/json"}
+
+    post "/api/v1/posters", headers: headers, params: JSON.generate(poster: poster_params)
+
+    newposter = Poster.last
+
+    expect(response).to be_successful
+
+    expect(newposter.name).to eq(poster_params[:name])
+    expect(newposter.description).to eq(poster_params[:description])
+    expect(newposter.price).to eq(poster_params[:price])
+    expect(newposter.year).to eq(poster_params[:year])
+    expect(newposter.vintage).to eq(poster_params[:vintage])
+    expect(newposter.img_url).to eq(poster_params[:img_url])
+
+  end
 end
