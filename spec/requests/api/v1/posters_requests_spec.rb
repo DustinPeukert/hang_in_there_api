@@ -56,5 +56,3 @@ describe "Posters API", type: :request do
     end
   end
 end
-
-Poster.find_by(id = @id)
