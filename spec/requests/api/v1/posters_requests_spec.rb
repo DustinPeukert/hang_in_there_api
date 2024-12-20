@@ -57,4 +57,41 @@ describe "Posters API", type: :request do
       expect(poster[:attributes][:img_url]).to be_a(String)
     end
   end
+
+  it 'can update a specific posters data' do
+    first_poster = Poster.first
+
+    patch "/api/v1/posters/#{first_poster.id}", params: {
+      poster: {
+        name: 'LONELINESS',
+        description: 'You will never have friends.',
+        price: 32.00
+      }
+    }
+    
+    expect(response).to be_successful
+
+    updated_poster = JSON.parse(response.body, symbolize_names: true)[:data]
+
+    expect(updated_poster).to have_key(:id)
+    expect(updated_poster[:id]).to eq(first_poster.id.to_s)
+
+    expect(updated_poster[:attributes]).to have_key(:name)
+    expect(updated_poster[:attributes][:name]).to eq('LONELINESS')
+
+    expect(updated_poster[:attributes]).to have_key(:description)
+    expect(updated_poster[:attributes][:description]).to eq('You will never have friends.')
+
+    expect(updated_poster[:attributes]).to have_key(:price)
+    expect(updated_poster[:attributes][:price]).to eq(32.00)
+
+    expect(updated_poster[:attributes]).to have_key(:year)
+    expect(updated_poster[:attributes][:year]).to eq(2019)
+
+    expect(updated_poster[:attributes]).to have_key(:vintage)
+    expect(updated_poster[:attributes][:vintage]).to be true
+
+    expect(updated_poster[:attributes]).to have_key(:img_url)
+    expect(updated_poster[:attributes][:img_url]).to eq("https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d")
+  end
 end
