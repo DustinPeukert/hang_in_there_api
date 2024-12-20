@@ -58,6 +58,28 @@ describe "Posters API", type: :request do
     end
   end
 
+  it 'can return all posters sorted in ascending order of creation' do
+    get '/api/v1/posters?sort=asc'
+
+    expect(response).to be_successful
+
+    posters = JSON.parse(response.body, symbolize_names: true)[:data]
+    expect(posters[0][:attributes][:name]).to eq('REGRET')
+    expect(posters[1][:attributes][:name]).to eq('DISAPPOINTMENT')
+    expect(posters[2][:attributes][:name]).to eq('SADNESS')
+  end
+
+  it 'can return all posters sorted in descending order of creation' do
+    get '/api/v1/posters?sort=desc'
+
+    expect(response).to be_successful
+
+    posters = JSON.parse(response.body, symbolize_names: true)[:data]
+    expect(posters[0][:attributes][:name]).to eq('SADNESS')
+    expect(posters[1][:attributes][:name]).to eq('DISAPPOINTMENT')
+    expect(posters[2][:attributes][:name]).to eq('REGRET')
+  end
+
   it 'can update a specific posters data' do
     first_poster = Poster.first
 
