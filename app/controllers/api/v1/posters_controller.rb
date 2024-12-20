@@ -8,7 +8,7 @@ class Api::V1::PostersController < ApplicationController
       posters = posters.order(created_at: :desc)
     end
 
-    render json: PosterSerializer.new(posters)
+    render json: PosterSerializer.new(posters, meta: { count: posters.count })
   end
 
   def update
