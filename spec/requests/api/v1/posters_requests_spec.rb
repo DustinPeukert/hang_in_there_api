@@ -68,7 +68,7 @@ describe "Posters API", type: :request do
         price: 32.00
       }
     }
-    
+
     expect(response).to be_successful
 
     updated_poster = JSON.parse(response.body, symbolize_names: true)[:data]
@@ -93,5 +93,20 @@ describe "Posters API", type: :request do
 
     expect(updated_poster[:attributes]).to have_key(:img_url)
     expect(updated_poster[:attributes][:img_url]).to eq("https://plus.unsplash.com/premium_photo-1661293818249-fddbddf07a5d")
+  end
+
+  it 'can delete a poster' do
+    poster_to_delete = Poster.first
+
+    delete "/api/v1/posters/#{poster_to_delete.id}"
+
+    expect(response).to be_successful
+    expect(response.status).to eq(204)
+
+    deleted_poster = Poster.find_by(id: poster_to_delete.id)
+    expect(deleted_poster).to be nil
+
+    remaining_posters = Poster.all
+    expect(remaining_posters.count).to eq(2)
   end
 end
