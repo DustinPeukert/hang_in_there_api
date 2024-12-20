@@ -1,7 +1,14 @@
 class Api::V1::PostersController < ApplicationController
   def index
     posters = Poster.all
-    render json: PosterSerializer.new(posters)
+
+    if params[:sort] == 'asc'
+      posters = posters.order(:created_at)
+    elsif params[:sort] == 'desc'
+      posters = posters.order(created_at: :desc)
+    end
+
+    render json: PosterSerializer.new(posters, meta: { count: posters.count })
   end
 
   def show
