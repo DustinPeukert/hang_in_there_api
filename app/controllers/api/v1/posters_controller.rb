@@ -16,6 +16,11 @@ class Api::V1::PostersController < ApplicationController
     render json: PosterSerializer.new(poster)
   end
 
+  def create
+    poster = Poster.create(poster_params)
+    render json: PosterSerializer.new(poster)
+  end
+
   def update
     poster = Poster.update(params[:id], poster_params)
     render json: PosterSerializer.new(poster)
