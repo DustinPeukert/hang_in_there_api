@@ -190,6 +190,43 @@ describe "Posters API", type: :request do
     expect(newposter.year).to eq(poster_params[:year])
     expect(newposter.vintage).to eq(poster_params[:vintage])
     expect(newposter.img_url).to eq(poster_params[:img_url])
+  end
 
+  it "can parce through for name of poster" do
+    poster1 = Poster.first
+
+    get "/api/v1/posters?name=sa"
+
+    posters = JSON.parse(response.body, symbolize_names: true)[:data]
+
+    expect(response).to be_successful
+    expect(posters.length).to be(2)
+    expect(posters[0][:attributes][:name]).to eq('DISAPPOINTMENT')
+    expect(posters[1][:attributes][:name]).to eq('SADNESS')
+  end
+
+  it "can parce through max price" do
+    poster1 = Poster.first
+
+    get "/api/v1/posters?max_price=99.99"
+
+    posters = JSON.parse(response.body, symbolize_names: true)[:data]
+
+    expect(response).to be_successful
+    expect(posters.length).to be(2)
+    expect(posters[0][:attributes][:name]).to eq('REGRET')
+    expect(posters[1][:attributes][:name]).to eq('SADNESS')
+  end
+
+  it "can parce through min price" do
+    poster1 = Poster.first
+
+    get "/api/v1/posters?min_price=99.99"
+
+    posters = JSON.parse(response.body, symbolize_names: true)[:data]
+
+    expect(response).to be_successful
+    expect(posters.length).to be(1)
+    expect(posters[0][:attributes][:name]).to eq('DISAPPOINTMENT')
   end
 end
