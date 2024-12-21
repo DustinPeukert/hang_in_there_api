@@ -2,6 +2,18 @@ class Api::V1::PostersController < ApplicationController
   def index
     posters = Poster.all
 
+    if params[:name].present?
+      poster = poster.where()
+    end
+
+    if params[:max_price].present?
+      poster = poster.where()
+    end
+
+    if params[:min_price].present?
+      poster = poster.where()
+    end
+
     if params[:sort] == 'asc'
       posters = posters.order(:created_at)
     elsif params[:sort] == 'desc'
