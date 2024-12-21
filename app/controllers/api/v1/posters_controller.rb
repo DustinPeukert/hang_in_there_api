@@ -7,11 +7,11 @@ class Api::V1::PostersController < ApplicationController
     end
 
     if params[:max_price].present?
-      poster = poster.where()
+      poster = poster.where( ,params[:max_price].to_f)
     end
 
     if params[:min_price].present?
-      poster = poster.where()
+      poster = poster.where( ,params[min_price].to_f)
     end
 
     if params[:sort] == 'asc'
